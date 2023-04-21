@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: business-one
+#日志配置（logback）
+logging:
+  file:
+    #日志文件陌路
+    path: log
+    #日志文件名称
+    name: ${logging.file.path}/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      #用于创建日志归档的文件名模式
+      file-name-pattern: ${logging.file.path}/%d{yyyy-MM-dd,aux}/${spring.application.name}.%d{yyyy-MM-dd_HH}.%i.log
+      #日志文件归档前的最大尺寸（文件最大体积，达到这个体积就会归档）。
+      max-file-size: 10MB
+      #要保留的归档日志文件的最大天数（默认为7）
+      max-history: 7
+      #应用程序启动时，是否行日志归档清理
+      clean-history-on-start: false
+      #日志档案在被删除前的最大尺寸（归档文件最大占用大小，超过这个大小后会被删除）
+      total-size-cap: 10MB
+  level:
+    #日志等级：TRACE, DEBUG, INFO, WARN, ERROR, FATAL
+    root: info
+jwt:
+  #jwt加密秘钥
+  securityKey: HN0dimrdvnDqEuKB
+  #jwt有效时间(毫秒)
+  expiration: 3600000
