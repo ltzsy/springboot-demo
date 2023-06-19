@@ -1,12 +1,33 @@
 server:
-  port: 8080
+  port: 8080 #端口号
+
+#springboot配置
 spring:
   application:
-    name: business-one
+    name: springboot-demo #应用名称
+  #JDBC
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #驱动
+    username: eshoponline #数据库账号
+    password: lEpu4JBC5! #数据库密码
+    name: test
+    url: jdbc:mysql://10.20.0.236:3306/test?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=false&useTimezone=true&allowMultiQueries=true
+    #JDB连接池配置
+    hikari:
+      pool-name: hikari-spring-demo-1 #连接池名称
+      connection-timeout: 60000 #请求连接的超时时间
+      maximum-pool-size: 20 #最大连接数量
+      max-lifetime: 1800000 #连接的最长生命周期
+      keepalive-time: 1750000 #尝试保持连接的频率
+      connection-test-query: select 1 #连接验证sql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 #日志配置（logback）
 logging:
   file:
-    #日志文件陌路
+    #日志文件路径
     path: log
     #日志文件名称
     name: ${logging.file.path}/${spring.application.name}.log
@@ -25,8 +46,33 @@ logging:
   level:
     #日志等级：TRACE, DEBUG, INFO, WARN, ERROR, FATAL
     root: info
+    com.springboot.demo: debug
+    com.baomidou.mybatisplus: debug
+
+#jwt配置
 jwt:
   #jwt加密秘钥
   securityKey: HN0dimrdvnDqEuKB
   #jwt有效时间(毫秒)
-  expiration: 3600000
+  expiration: 36000000
+
+#swagger配置
+swagger:
+  enable: false #是否开启swagger
+
+#mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl #日志接口
+    default-executor-type: batch #指定mybatis的执行器
+    map-underscore-to-camel-case: true #是否开启自动驼峰命名规则（camel case）映射
+    local-cache-scope: statement #关闭一级缓存
+    cache-enabled: true #
+  global-config:
+    banner: false #是否控制台 print mybatis-plus 的 LOGO
+
+#管理员角色id
+user:
+  admin-role-id: 1
+  reset_password: 123456
+

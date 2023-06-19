@@ -1,6 +1,6 @@
-#开发环境配置
-test:
-  value1: i am dev config
-spring:
-  jackson:
-    date-format: yyyy-MM-dd hh:mm:ss
+#######开发环境配置
+#swagger配置
+swagger:
+  enable: true #是否开启swagger
+  base-package: com.springboot.demo #要生成API文档的controller包路径
+  title: springboot-demo #标题

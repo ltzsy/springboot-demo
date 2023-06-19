@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.demo.user.mapper.SysRoleMapper">
+
+    <select id="selectRoleByUserId" resultType="com.springboot.demo.user.entity.SysRole">
+        SELECT
+            b.role_id,
+            b.role_name,
+            b.is_available
+        FROM
+            sys_user_role_relevance a
+            INNER JOIN sys_role b ON a.role_id = b.role_id AND b.is_available = 1
+        WHERE
+            a.user_id = #{userId}
+    </select>
+
+    <select id="selectPage" resultType="com.springboot.demo.user.entity.SysRole" parameterType="com.springboot.demo.user.controller.dto.SysRoleQueryDTO">
+        SELECT
+            role_id,
+            role_name,
+            is_available
+        FROM
+           sys_role
+       <where>
+           <if test="param.roleName != null and param.roleName != ''">
+               <bind name="roleName" value="'%'+param.roleName+'%'"/>
+               AND role_name like #{roleName}
+           </if>
+           <if test="param.isAvailable != null and param.isAvailable != ''">
+               AND is_available = #{param.isAvailable}
+           </if>
+       </where>
+    </select>
+
+</mapper>

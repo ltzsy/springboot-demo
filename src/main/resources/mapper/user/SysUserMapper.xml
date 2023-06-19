@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.demo.user.mapper.SysUserMapper">
+
+    <select id="selectPage" resultType="com.springboot.demo.user.entity.SysUser" parameterType="com.springboot.demo.user.controller.dto.SysUserQueryDTO">
+        SELECT
+            user_id,
+            username,
+            is_available
+        FROM
+            sys_user
+        <where>
+            <if test="param.username != null and param.username != ''">
+                <bind name="username" value="'%'+param.username+'%'"/>
+                AND username like #{username}
+            </if>
+            <if test="param.isAvailable != null and param.isAvailable != ''">
+                AND is_available = #{param.isAvailable}
+            </if>
+        </where>
+    </select>
+
+</mapper>

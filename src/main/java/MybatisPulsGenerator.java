@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @description: MybatisPuls代码生成器<br>
@@ -30,7 +31,7 @@ public class MybatisPulsGenerator {
     /**
      * 要生成的表名，多个用","隔开
      */
-    private static String tableNames = "sys_user,user_role";
+    private static String tableNames = "sys_user_role_relevance";
     /**
      * 输出目录
      */
@@ -61,10 +62,13 @@ public class MybatisPulsGenerator {
                     .outputDir(outputDir); //指定输出目录
             })
             .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
+                //自定义类型转换
                 int typeCode = metaInfo.getJdbcType().TYPE_CODE;
                 if (typeCode == Types.SMALLINT) {
-                    //自定义类型转换
                     return DbColumnType.INTEGER;
+                }
+                if(typeCode == Types.TIME || typeCode == Types.DATE || typeCode == Types.TIMESTAMP){
+                    return DbColumnType.DATE;
                 }
                 return typeRegistry.getColumnType(metaInfo);
 
@@ -85,9 +89,11 @@ public class MybatisPulsGenerator {
                     .enableRestStyle() //开启生成@RestController 控制器
                     .enableFileOverride() //覆盖已生成文件
                     .serviceBuilder() //service配置
+                    .formatServiceFileName("%sService")
                     .enableFileOverride() //覆盖已生成文件
                     .mapperBuilder() //mapper配置
-                    .enableFileOverride(); //覆盖已生成文件
+                    .enableFileOverride() //覆盖已生成文件
+                    .mapperAnnotation(Mapper.class); //添加Mapper注解
 
             })
             .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
