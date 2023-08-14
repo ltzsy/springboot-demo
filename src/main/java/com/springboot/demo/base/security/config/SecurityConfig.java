@@ -1,12 +1,7 @@
 package com.springboot.demo.base.security.config;
 
+import com.springboot.demo.base.security.component.CustomAccessDeniedHandler;
 import com.springboot.demo.base.security.component.JwtAuthorizationManager;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +23,9 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthorizationManager jwtAuthorizationManager;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     /**
      * @description: securityFilterChain <br>
      * @version: 1.0 <br>
@@ -38,18 +36,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("初始化自定义【securityFilterChain】配置");
-        //禁用表单登录
+        //禁用登录表单
         http.formLogin().disable();
-        //禁用跨域防护
-        http.csrf().disable();
+        //禁用基本身份认证
+        http.httpBasic().disable();
         //禁用session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        //不拦截登录请求
-        http.authorizeHttpRequests().antMatchers("/login/**").permitAll();
-        //不拦截swagger相关请求
-        http.authorizeHttpRequests().antMatchers("/swagger-ui/**","/swagger-resources/**","/v3/api-docs/**","/doc.html","/webjars/**","/favicon.ico").permitAll();
-        //设置需要认证的api使用自定义的jwt身份验证管理器进行认证
-        http.authorizeHttpRequests().anyRequest().access(jwtAuthorizationManager);
+        //禁用跨域防护
+        http.csrf().disable();
+        //禁用匿名访问
+        http.anonymous().disable();
+        //关闭记住我
+        http.rememberMe().disable();
+        //授权配置
+        http.authorizeHttpRequests()
+            //开放登录请求
+            .antMatchers("/login/**").permitAll()
+            //开放swagger请求
+            .antMatchers("/swagger-ui/**","/swagger-resources/**","/v3/api-docs/**","/doc.html","/webjars/**","/favicon.ico").permitAll()
+            //jwt授权管理器
+            .anyRequest().access(jwtAuthorizationManager)
+            //授权失败处理器
+            .and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
         return http.build();
     }
 }

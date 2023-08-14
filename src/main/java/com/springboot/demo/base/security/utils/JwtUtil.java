@@ -82,25 +82,7 @@ public class JwtUtil {
      * @return io.jsonwebtoken.Claims
      */
     public static JwtUserDetails parseJwt(String jwtToken){
-        Claims claims = null;
-        try {
-            claims = Jwts.parser().setSigningKey(jwt_security_key).parseClaimsJws(jwtToken).getBody();
-        } catch (ExpiredJwtException e) {
-            e.printStackTrace();
-            return null;
-        } catch (UnsupportedJwtException e) {
-            e.printStackTrace();
-            return null;
-        } catch (MalformedJwtException e) {
-            e.printStackTrace();
-            return null;
-        } catch (SignatureException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
+        Claims claims = Jwts.parser().setSigningKey(jwt_security_key).parseClaimsJws(jwtToken).getBody();
         JwtUserDetails jwtUserDetails = JacksonUtil.mapToObject(claims, JwtUserDetails.class);
         return jwtUserDetails;
     }

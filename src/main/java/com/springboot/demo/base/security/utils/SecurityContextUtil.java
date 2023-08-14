@@ -18,12 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurityContextUtil {
 
-    private static PropertyUtil propertyUtil;
+    /*private static PropertyUtil propertyUtil;
 
     @Autowired
     public void setEnvironment(PropertyUtil propertyUtil) {
         SecurityContextUtil.propertyUtil = propertyUtil;
-    }
+    }*/
 
     /*
      * @description: 获取当前登录用户 <br>
@@ -66,9 +66,9 @@ public class SecurityContextUtil {
      * @param
      * @return boolean
      */
-    public static  boolean isAdmin(){
+    public static boolean isAdmin(){
         List<Long> roleList = getRoleList();
-        long adminRoleId = propertyUtil.getLong("user.admin-role-id");
+        long adminRoleId = PropertyUtil.getLong("user.admin-role-id");
         return roleList.contains(adminRoleId);
     }
 }

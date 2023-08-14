@@ -26,7 +26,7 @@ public class PropertyUtil {
      * @param key
      * @return java.lang.String
      */
-    public String getString(String key){
+    public static String getString(String key){
         if(StringUtils.isBlank(key)){
             return null;
         }
@@ -39,7 +39,7 @@ public class PropertyUtil {
      * @param key
      * @return java.lang.Long
      */
-    public Long getLong(String key){
+    public static Long getLong(String key){
         if(StringUtils.isBlank(key)){
             return null;
         }

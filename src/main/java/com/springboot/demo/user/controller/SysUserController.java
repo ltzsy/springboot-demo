@@ -75,7 +75,7 @@ public class SysUserController {
     }
 
     @ApiOperation("查询详情")
-    @PostMapping("details")
+    @PostMapping("/details")
     public ResponseEntity<SysUserDetailsDTO> details(@RequestParam("userid") Long userid){
         return ResponseEntity.ok(sysUserService.details(userid));
     }

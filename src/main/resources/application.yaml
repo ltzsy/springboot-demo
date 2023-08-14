@@ -76,3 +76,14 @@ user:
   admin-role-id: 1
   reset_password: 123456
 
+#拦截url配置
+intercept-url:
+  #需要管理员权限的url
+  adminUrlList:
+            - /sysRole/**
+            - /sysUserRoleRelevance/**
+            - /sysUser/**
+    #不拦截的url
+  noninterceptUrlList:
+            - /sysUser/changePassword
+            - /sysUser/details

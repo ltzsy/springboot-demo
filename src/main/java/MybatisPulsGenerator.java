@@ -19,19 +19,22 @@ public class MybatisPulsGenerator {
     /**
      * 数据库连接
      */
-    private static String url = "jdbc:mysql://10.20.0.236:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=false&useTimezone=true&allowMultiQueries=true";
+    //private static String url = "jdbc:mysql://10.20.0.236:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&useSSL=false&useTimezone=true&allowMultiQueries=true";
+    private static String url = "jdbc:mysql://mysql.hzero-dev.nearbyexpress.com:3306/homs_order?useUnicode=true&characterEncoding=utf-8&useSSL=false&zeroDateTimeBehavior=convertToNull";
     /**
      * 数据库账号
      */
-    private static String username = "eshoponline";
+    //private static String username = "eshoponline";
+    private static String username = "dev";
     /**
      * 数据库密码
      */
-    private static String password = "lEpu4JBC5!";
+    //private static String password = "lEpu4JBC5!";
+    private static String password = "noRz66pkj)X4KZACPzVz";
     /**
      * 要生成的表名，多个用","隔开
      */
-    private static String tableNames = "sys_user_role_relevance";
+    private static String tableNames = "hord_sales_plan,hord_sales_plan_entry";
     /**
      * 输出目录
      */
@@ -55,12 +58,14 @@ public class MybatisPulsGenerator {
 
     public static void main(String[] args) {
         FastAutoGenerator.create(url, username, password)
+            //全局配置
             .globalConfig(builder -> {
                 builder
                     .author(author) //设置作者
                     .enableSwagger() //开启swagger模式
                     .outputDir(outputDir); //指定输出目录
             })
+            //数据源配置
             .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
                 //自定义类型转换
                 int typeCode = metaInfo.getJdbcType().TYPE_CODE;
@@ -73,11 +78,17 @@ public class MybatisPulsGenerator {
                 return typeRegistry.getColumnType(metaInfo);
 
             }))
+            //包配置
             .packageConfig(builder -> {
                 builder.parent("") //设置父包名
                     .moduleName("") //设置父包模块名
                     .pathInfo(Collections.singletonMap(OutputFile.xml, outputDir)); //设置mapperXml生成路径
             })
+            //模板配置
+            .templateConfig(builder -> {
+                builder.controller("/templates/generator/controller.java");
+            })
+            //策略配置
             .strategyConfig(builder -> {
                 builder.addInclude(tableNames.split(",")) // 设置需要生成的表名
                     .addTablePrefix(tablePrefixs.split(",")) // 设置过滤表前缀
