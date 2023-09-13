@@ -5,6 +5,9 @@ server:
 spring:
   application:
     name: springboot-demo #应用名称
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   #JDBC
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver #驱动
@@ -20,9 +23,14 @@ spring:
       max-lifetime: 1800000 #连接的最长生命周期
       keepalive-time: 1750000 #尝试保持连接的频率
       connection-test-query: select 1 #连接验证sql
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  #redis配置
+  redis:
+    redisson:
+      file: classpath:redisson.yaml
+  #flyway配置
+  flyway:
+    baseline-on-migrate: true
+    locations: classpath:db/migration/
 
 #日志配置（logback）
 logging:

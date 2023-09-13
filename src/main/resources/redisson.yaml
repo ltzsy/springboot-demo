@@ -1,0 +1,18 @@
+singleServerConfig:
+  address: redis://127.0.0.1:6379 #redis地址
+  database: 0 #Database index used for Redis connection
+  connectTimeout: 10000 #连接到任何Redis服务器时超时
+  timeout: 3000 #Redis服务器响应超时。Redis命令发送成功后开始倒计时。毫秒值
+  connectionPoolSize: 64 #Redis连接最大池大小
+  connectionMinimumIdleSize: 24 #最小空闲Redis连接量
+  idleConnectionTimeout: 10000 #如果池连接在超时时间内未使用，并且当前连接数量大于最小空闲连接池大小，则将关闭并从池中删除。毫秒值
+  retryAttempts: 3 #重试次数，如果在retryAttempts之后Redis命令不能被发送到Redis服务器，将会抛出错误。但如果发送成功，则会启动超时
+  retryInterval: 1500 #在此时间间隔之后，将执行另一次发送Redis命令的尝试。单位为毫秒
+  subscriptionConnectionPoolSize: 50 #Redis订阅连接最大池大小
+  subscriptionsPerConnection: 5 #每个Redis连接的订阅限制
+  subscriptionConnectionMinimumIdleSize: 1 #最小空闲Redis订阅连接数
+  dnsMonitoringInterval: 5000 #DNS变更监控周期。应用程序必须确保JVM DNS缓存TTL足够低以支持这一点。设置-1为禁用。代理模式下支持单个主机名的多个IP绑定
+  #password: null
+  #username: null
+  #clientName: leevi #客户端连接名称
+  #credentialsResolver: 默认空,定义在连接Redis服务器身份验证时调用的凭据解析器。每个Redis节点地址返回凭据对象，它包含用户名和密码字段。允许指定动态更改Redis凭据。

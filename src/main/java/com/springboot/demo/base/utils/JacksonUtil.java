@@ -3,6 +3,7 @@ package com.springboot.demo.base.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,7 +53,7 @@ public class JacksonUtil {
             return null;
         }
         try {
-            return  objectMapper.readValue(json, T);
+            return objectMapper.readValue(json, T);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -83,5 +84,18 @@ public class JacksonUtil {
     public static <T> T mapToObject(Map<String, Object> map, Class<T> T){
         Object obj = objectMapper.convertValue(map, T);
         return (T) obj;
+    }
+
+    /*
+     * @description: 对象转list <br>
+     * @create: 2023/9/12 10:55 <br>
+     * @param obj
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     */
+    public static List<Map<String, Object>> objectToArray(Object obj){
+        if(null == obj){
+            return null;
+        }
+        return objectMapper.convertValue(obj, new TypeReference<List<Map<String, Object>>>() {});
     }
 }
