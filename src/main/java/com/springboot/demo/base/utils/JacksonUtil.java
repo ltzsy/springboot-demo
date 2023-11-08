@@ -92,10 +92,10 @@ public class JacksonUtil {
      * @param obj
      * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
      */
-    public static List<Map<String, Object>> objectToArray(Object obj){
+    public static<T> List<T> objectToArray(Object obj){
         if(null == obj){
             return null;
         }
-        return objectMapper.convertValue(obj, new TypeReference<List<Map<String, Object>>>() {});
+        return objectMapper.convertValue(obj, new TypeReference<List<T>>() {});
     }
 }

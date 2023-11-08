@@ -7,12 +7,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @description: 这里用一句话描述这个类的作用 <br>
  * @author: 小花卷的Dad <br>
  * @create: 2023/5/10 <br>
  */
+@Configuration
 public class JacksonConfig {
 
     /*
